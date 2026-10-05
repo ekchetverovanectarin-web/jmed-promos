@@ -5,8 +5,37 @@
   var DATA_URL = SCRIPT ? new URL('promos.json', SCRIPT.src).href : 'promos.json';
   var STYLE_ID = 'jmed-promo-styles';
 
+  function scopeCss(css, scope) {
+    var out = '', i = 0;
+    while (i < css.length) {
+      var open = css.indexOf('{', i);
+      if (open < 0) break;
+      var sel = css.slice(i, open).trim();
+      if (sel.charAt(0) === '@') {
+        var depth = 1, j = open + 1;
+        while (j < css.length && depth) {
+          var ch = css.charAt(j);
+          if (ch === '{') depth++; else if (ch === '}') depth--;
+          j++;
+        }
+        out += sel + '{' + scopeCss(css.slice(open + 1, j - 1), scope) + '}';
+        i = j;
+      } else {
+        var close = css.indexOf('}', open);
+        var scoped = sel.split(',').map(function (s) {
+          s = s.trim();
+          return (s.indexOf(':root') === 0 || s.indexOf('.jp-lb') === 0) ? s : scope + ' ' + s;
+        }).join(',');
+        out += scoped + '{' + css.slice(open + 1, close) + '}';
+        i = close + 1;
+      }
+    }
+    return out;
+  }
+
   function injectStyles() {
-    if (document.getElementById(STYLE_ID)) return;
+    var sid = STYLE_ID + '-' + CONTAINER_ID;
+    if (document.getElementById(sid)) return;
     var css = ''
       + ':root{--jp-gold:#B8934A;--jp-ink:#1A1410;--jp-muted:#8A8078;--jp-line:#DDD8D0;--jp-alt:#F6F4F4;--jp-old:#B0A89E}'
       + '.jp-wrap{font-family:\'Helvetica Neue\',Arial,sans-serif}'
@@ -78,8 +107,8 @@
       + '.jp-evergreen-row{display:flex;gap:16px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--jp-line);font-size:14px;color:var(--jp-muted)}'
       + '.jp-evergreen-pct{font-family:Georgia,serif;font-size:22px;color:var(--jp-gold);flex:0 0 auto}';
     var style = document.createElement('style');
-    style.id = STYLE_ID;
-    style.textContent = css;
+    style.id = sid;
+    style.textContent = scopeCss(css, '#' + CONTAINER_ID);
     document.head.appendChild(style);
   }
 
