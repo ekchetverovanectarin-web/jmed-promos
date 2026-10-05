@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>J`MED — promos (служебная страница)</title>
+<meta name="robots" content="noindex">
+<style>
+  body{max-width:960px;margin:40px auto;padding:0 20px;font-family:Arial,sans-serif;color:#1A1410}
+  h1{font-size:20px}
+  h2{font-size:16px;margin-top:48px;border-top:1px solid #ddd;padding-top:24px}
+</style>
+</head>
+<body>
+<h1>Служебная страница: предпросмотр блоков акций j-med.ru</h1>
+<p>Это не публичная страница сайта — техническая витрина, чтобы проверить, как рендерятся блоки из <code>promos.json</code> через <code>loader.js</code>, прежде чем вставлять их в Tilda.</p>
+
+<h2>Вариант "mini" — как на главной / botulinoterapiya / apparatnaya_korrekciya</h2>
+<div id="jmed-promos-home"></div>
+<script src="loader.js" data-jmed-page="home" data-jmed-target="jmed-promos-home" defer></script>
+
+<h2>Вариант "mini" — 3 карточки (botulinoterapiya / apparatnaya_korrekciya)</h2>
+<div id="jmed-promos-jb"></div>
+<script src="loader.js" data-jmed-page="botulinoterapiya" data-jmed-target="jmed-promos-jb" defer></script>
+
+<h2>Вариант "full" — страница /akcii</h2>
+<div id="jmed-promos-akcii"></div>
+<script src="loader.js" data-jmed-page="akcii" data-jmed-target="jmed-promos-akcii" defer></script>
+
+</body>
+</html>
