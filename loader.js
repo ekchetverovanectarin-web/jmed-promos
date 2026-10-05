@@ -137,22 +137,28 @@
     var offersById = {};
     data.offers.forEach(function (o) { offersById[o.id] = o; });
 
-    var list = el('div', 'jp-full-list');
+    var list = el('div', 'offer-list');
     (pageCfg.offerIds || []).forEach(function (id) {
       var o = offersById[id];
       if (!o) return;
-      var item = el('div', 'jp-full-item');
+      var item = el('div', 'offer');
       item.id = o.id;
-      var priceHtml = '<span class="jp-price-new">' + o.priceNew + '</span>';
-      if (o.priceOld) priceHtml += '<span class="jp-price-old">' + o.priceOld + '</span>';
+      var priceHtml = '<span class="offer-new">' + o.priceNew + '</span>';
+      if (o.priceOld) priceHtml += '<span class="offer-old">' + o.priceOld + '</span>';
       var termsHtml = (o.terms || []).map(function (t) { return '<li>' + t + '</li>'; }).join('');
       item.innerHTML = ''
-        + '<div class="jp-badge">' + o.badge + '</div>'
-        + '<div class="jp-title">' + o.title + '</div>'
-        + '<div class="jp-price">' + priceHtml + '</div>'
-        + '<p class="jp-full-desc">' + o.description + '</p>'
-        + (termsHtml ? '<ul class="jp-full-terms">' + termsHtml + '</ul>' : '')
-        + '<a class="jp-full-cta" href="https://n463443.yclients.com/company/438951/personal/menu?o=" target="_blank" rel="noopener">' + (o.cta || 'Записаться') + ' →</a>';
+        + '<div class="offer-inner">'
+        + '<div class="offer-price-col">'
+        + '<div class="offer-badge">' + o.badge + '</div>'
+        + '<div class="offer-title">' + o.title + '</div>'
+        + '<div class="offer-price">' + priceHtml + '</div>'
+        + '</div>'
+        + '<div class="offer-body">'
+        + '<p>' + o.description + '</p>'
+        + (termsHtml ? '<ul class="offer-terms">' + termsHtml + '</ul>' : '')
+        + '<div class="offer-cta"><a href="#popup:myform" class="btn-sm">' + (o.cta || 'Записаться') + '</a></div>'
+        + '</div>'
+        + '</div>';
       list.appendChild(item);
     });
     wrap.appendChild(list);
@@ -177,6 +183,7 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-jmed-deadline]'), function (n) {
       n.textContent = data.deadlineText;
     });
+    if (!(pageCfg.offerIds || []).length) return;
     Array.prototype.forEach.call(document.querySelectorAll('[data-jmed-jump]'), function (n) {
       n.innerHTML = '';
       (pageCfg.offerIds || []).forEach(function (id) {
@@ -189,6 +196,16 @@
         n.appendChild(document.createTextNode(' '));
       });
     });
+  }
+
+  function renderPerma(container, data) {
+    var grid = el('div', 'perma-grid');
+    (data.evergreen || []).forEach(function (row) {
+      var c = el('div', 'perma-card');
+      c.innerHTML = '<div class="perma-pct">' + row.percent + '</div><p>' + row.text + '</p>';
+      grid.appendChild(c);
+    });
+    container.appendChild(grid);
   }
 
   function renderEvergreen(container, data) {
@@ -320,6 +337,8 @@
           renderFull(container, data, pageCfg);
         } else if (pageCfg.variant === 'evergreen') {
           renderEvergreen(container, data);
+        } else if (pageCfg.variant === 'perma') {
+          renderPerma(container, data);
         } else if (pageCfg.variant === 'banners') {
           renderBanners(container, data);
         } else {
