@@ -80,7 +80,14 @@
     { "percent": "−10%", "text": "На процедуру при первом посещении клиники." },
     { "percent": "−30%", "text": "На лазерную эпиляцию (любая зона) при первом посещении клиники." }
   ],
+  "banners": [
+    { "image": "https://static.tildacdn.com/tild6563-3833-4637-b537-303531663363/_.jpg", "alt": "−10% на любую процедуру за отзыв о клинике" },
+    { "image": "https://static.tildacdn.com/tild3961-3334-4534-a165-626362613731/_.jpg", "alt": "−10% за приведённую подругу" },
+    { "image": "https://static.tildacdn.com/tild3162-3962-4263-b366-393034666266/_.jpg", "alt": "−10% на процедуру при первом посещении" },
+    { "image": "https://static.tildacdn.com/tild6230-3435-4330-b831-343336336164/_.jpg", "alt": "−30% на лазерную эпиляцию при первом посещении" }
+  ],
   "pages": {
+    "apparatnaya_korrekciya_banners": { "variant": "banners" },
     "home": { "variant": "mini", "offerIds": ["biorevitalizaciya-rf", "chistka-piling", "kurs-pilingov", "kontur-gub-uhod", "depozit"], "seeAllCard": true },
     "botulinoterapiya": { "variant": "mini", "offerIds": ["kontur-gub-uhod", "biorevitalizaciya-rf", "depozit"], "seeAllCard": false },
     "apparatnaya_korrekciya": { "variant": "mini", "offerIds": ["kontur-gub-uhod", "biorevitalizaciya-rf", "depozit"], "seeAllCard": false },
