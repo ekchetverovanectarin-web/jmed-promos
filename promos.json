@@ -187,6 +187,15 @@
     },
     "home_banners": {
       "variant": "banners"
+    },
+    "biorevitalizaciya": {
+      "variant": "mini",
+      "offerIds": [
+        "biorevitalizaciya-rf",
+        "kontur-gub-uhod",
+        "depozit"
+      ],
+      "seeAllCard": false
     }
   }
 }
