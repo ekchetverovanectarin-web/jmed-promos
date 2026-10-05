@@ -91,8 +91,7 @@
 
   function renderFull(container, data, pageCfg) {
     var wrap = el('div', 'jp-wrap');
-    var until = el('p', 'jp-until', data.deadlineText);
-    wrap.appendChild(until);
+    if (!pageCfg.hideDeadline) wrap.appendChild(el('p', 'jp-until', data.deadlineText));
 
     var offersById = {};
     data.offers.forEach(function (o) { offersById[o.id] = o; });
@@ -131,6 +130,26 @@
     container.appendChild(wrap);
   }
 
+  function fillExtras(data, pageCfg) {
+    var offersById = {};
+    data.offers.forEach(function (o) { offersById[o.id] = o; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-jmed-deadline]'), function (n) {
+      n.textContent = data.deadlineText;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-jmed-jump]'), function (n) {
+      n.innerHTML = '';
+      (pageCfg.offerIds || []).forEach(function (id) {
+        var o = offersById[id];
+        if (!o) return;
+        var a = document.createElement('a');
+        a.href = '#' + o.id;
+        a.textContent = o.title.replace(/[«»]/g, '');
+        n.appendChild(a);
+        n.appendChild(document.createTextNode(' '));
+      });
+    });
+  }
+
   function init() {
     var container = document.getElementById(CONTAINER_ID);
     if (!container) {
@@ -150,6 +169,7 @@
           return;
         }
         injectStyles();
+        fillExtras(data, pageCfg);
         container.innerHTML = '';
         if (pageCfg.variant === 'full') {
           renderFull(container, data, pageCfg);
