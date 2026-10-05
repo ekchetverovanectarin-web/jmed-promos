@@ -10,6 +10,13 @@
     var css = ''
       + ':root{--jp-gold:#B8934A;--jp-ink:#1A1410;--jp-muted:#8A8078;--jp-line:#DDD8D0;--jp-alt:#F6F4F4;--jp-old:#B0A89E}'
       + '.jp-wrap{font-family:\'Helvetica Neue\',Arial,sans-serif}'
+      + '.jp-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px 24px;margin-bottom:20px}'
+      + '.jp-head .jp-until{margin:0}'
+      + '.jp-allbtn{display:inline-flex;align-items:center;gap:12px;background:var(--jp-ink);color:#FDFAF5!important;font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;text-decoration:none!important;padding:15px 26px;border:1px solid var(--jp-ink);transition:background .2s,border-color .2s,color .2s,gap .2s}'
+      + '.jp-allbtn span{color:var(--jp-gold);font-size:15px;transition:color .2s}'
+      + '.jp-allbtn:hover{background:var(--jp-gold);border-color:var(--jp-gold);color:var(--jp-ink)!important;gap:18px}'
+      + '.jp-allbtn:hover span{color:var(--jp-ink)}'
+      + '@media(max-width:768px){.jp-allbtn{width:100%;justify-content:center;box-sizing:border-box}}'
       + '.jp-until{font-size:12px;font-weight:500;letter-spacing:.04em;color:var(--jp-gold);margin-bottom:20px}'
       + '.jp-until a{color:var(--jp-gold);border-bottom:1px solid var(--jp-gold);padding-bottom:1px;text-decoration:none}'
       + '.jp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--jp-line);border:1px solid var(--jp-line)}'
@@ -54,8 +61,11 @@
 
   function renderMini(container, data, pageCfg) {
     var wrap = el('div', 'jp-wrap');
-    var until = el('p', 'jp-until', data.deadlineText + ' · <a href="https://j-med.ru/akcii">Все акции на отдельной странице →</a>');
-    wrap.appendChild(until);
+    var head = el('div', 'jp-head');
+    head.appendChild(el('p', 'jp-until', data.deadlineText));
+    head.appendChild(el('a', 'jp-allbtn', 'Все акции и скидки <span>→</span>'));
+    head.lastChild.href = 'https://j-med.ru/akcii';
+    wrap.appendChild(head);
 
     var grid = el('div', 'jp-grid');
     var offersById = {};
