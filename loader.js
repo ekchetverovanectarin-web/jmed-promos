@@ -249,8 +249,10 @@
   var SVG_L = '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
   var SVG_R = '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>';
 
-  function renderBanners(container, data) {
-    var banners = data.banners || [];
+  function renderBanners(container, data, pageCfg) {
+    var banners = (data.banners || []).filter(function (b) {
+      return !pageCfg.bannerIds || pageCfg.bannerIds.indexOf(b.id) > -1;
+    });
     if (!banners.length) return;
     var idx = 0, swiping = false, sx = 0;
 
@@ -340,7 +342,7 @@
         } else if (pageCfg.variant === 'perma') {
           renderPerma(container, data);
         } else if (pageCfg.variant === 'banners') {
-          renderBanners(container, data);
+          renderBanners(container, data, pageCfg);
         } else {
           renderMini(container, data, pageCfg);
         }

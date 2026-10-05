@@ -95,30 +95,51 @@
   "banners": [
     {
       "image": "https://static.tildacdn.com/tild6563-3833-4637-b537-303531663363/_.jpg",
-      "alt": "−10% на любую процедуру за отзыв о клинике"
+      "alt": "−10% на любую процедуру за отзыв о клинике",
+      "id": "b1"
     },
     {
       "image": "https://static.tildacdn.com/tild3961-3334-4534-a165-626362613731/_.jpg",
-      "alt": "−10% за приведённую подругу"
+      "alt": "−10% за приведённую подругу",
+      "id": "b2"
     },
     {
       "image": "https://static.tildacdn.com/tild3162-3962-4263-b366-393034666266/_.jpg",
-      "alt": "−10% на процедуру при первом посещении"
+      "alt": "−10% на процедуру при первом посещении",
+      "id": "b3"
     },
     {
       "image": "https://static.tildacdn.com/tild6230-3435-4330-b831-343336336164/_.jpg",
-      "alt": "−30% на лазерную эпиляцию при первом посещении"
+      "alt": "−30% на лазерную эпиляцию при первом посещении",
+      "id": "b4"
+    },
+    {
+      "id": "b5",
+      "image": "https://static.tildacdn.com/tild3564-3534-4664-b339-633764613962/_.jpg",
+      "alt": "Акция клиники"
     }
   ],
   "pages": {
     "apparatnaya_korrekciya_banners": {
-      "variant": "banners"
+      "variant": "banners",
+      "bannerIds": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
     },
     "akcii_perma": {
       "variant": "perma"
     },
     "akcii_banners": {
-      "variant": "banners"
+      "variant": "banners",
+      "bannerIds": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
     },
     "home": {
       "variant": "mini",
@@ -163,6 +184,9 @@
         "depozit"
       ],
       "showEvergreen": false
+    },
+    "home_banners": {
+      "variant": "banners"
     }
   }
 }
