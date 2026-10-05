@@ -84,6 +84,6 @@
     "home": { "variant": "mini", "offerIds": ["biorevitalizaciya-rf", "chistka-piling", "kurs-pilingov", "kontur-gub-uhod", "depozit"], "seeAllCard": true },
     "botulinoterapiya": { "variant": "mini", "offerIds": ["kontur-gub-uhod", "biorevitalizaciya-rf", "depozit"], "seeAllCard": false },
     "apparatnaya_korrekciya": { "variant": "mini", "offerIds": ["kontur-gub-uhod", "biorevitalizaciya-rf", "depozit"], "seeAllCard": false },
-    "akcii": { "variant": "full", "hideDeadline": true, "offerIds": ["biorevitalizaciya-rf", "chistka-piling", "kurs-pilingov", "kontur-gub-uhod", "depozit"], "showEvergreen": true }
+    "akcii": { "variant": "full", "hideDeadline": true, "offerIds": ["biorevitalizaciya-rf", "chistka-piling", "kurs-pilingov", "kontur-gub-uhod", "depozit"], "showEvergreen": false }
   }
 }
