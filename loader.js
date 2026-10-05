@@ -135,7 +135,7 @@
       var o = offersById[id];
       if (!o) return;
       var card = el('a', 'jp-card');
-      card.href = 'https://j-med.ru/akcii#' + o.id;
+      card.href = '#popup:myform';
       var priceHtml = '<span class="jp-price-new">' + o.priceNew + '</span>';
       if (o.priceOld) priceHtml += '<span class="jp-price-old">' + o.priceOld + '</span>';
       card.innerHTML = ''
