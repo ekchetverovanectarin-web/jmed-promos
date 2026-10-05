@@ -2,9 +2,11 @@
   if (window.__jmedServiceName) return;
   window.__jmedServiceName = true;
 
+  var INVISIBLE = new RegExp('[' + String.fromCharCode(173, 8203, 8204, 8205, 65279) + ']', 'g');
+
   function serviceName() {
     var h1 = document.querySelector('h1');
-    var text = h1 ? h1.innerText.replace(/[­​-‍﻿]/g, '').replace(/\s+/g, ' ').trim() : '';
+    var text = h1 ? h1.innerText.replace(INVISIBLE, '').replace(/\s+/g, ' ').trim() : '';
     if (text) return text;
     text = document.title.split(/[|—]/)[0].replace(/\/\s*J`?MED\s*$/i, '').trim();
     return text || 'Главная / прочее';
