@@ -42,11 +42,17 @@
       + '.jp-full-desc{font-size:14px;color:var(--jp-muted);line-height:1.7;margin:14px 0}'
       + '.jp-full-terms{margin:0 0 20px;padding-left:18px;font-size:13px;color:var(--jp-muted);line-height:1.8}'
       + '.jp-full-cta{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--jp-ink)!important;text-decoration:none!important;border-bottom:1px solid var(--jp-gold);padding-bottom:4px}'
-      + '.jp-ever-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--jp-line);border:1px solid var(--jp-line)}'
-      + '.jp-ever-card{background:#fff;padding:28px;display:flex;gap:22px;align-items:flex-start}'
+      + '.jp-slider{position:relative}'
+      + '.jp-sl-track{display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;background:var(--jp-line);border:1px solid var(--jp-line)}'
+      + '.jp-sl-track::-webkit-scrollbar{display:none}'
+      + '.jp-sl-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.96);border:1px solid var(--jp-line);color:var(--jp-ink);font-size:26px;line-height:1;padding:0 0 3px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,box-shadow .2s,opacity .2s}'
+      + '.jp-sl-btn:hover:not(:disabled){border-color:var(--jp-gold);box-shadow:0 4px 12px rgba(0,0,0,.1);color:var(--jp-gold)}'
+      + '.jp-sl-btn:disabled{opacity:.35;cursor:default}'
+      + '.jp-sl-prev{left:-18px}.jp-sl-next{right:-18px}'
+      + '.jp-ever-card{flex:0 0 calc(50% - .5px);scroll-snap-align:start;box-sizing:border-box;background:#fff;padding:32px 28px;display:flex;gap:22px;align-items:flex-start}'
       + '.jp-ever-pct{font-family:Georgia,serif;font-size:44px;font-weight:300;line-height:1;color:var(--jp-gold);flex:0 0 auto;min-width:92px}'
       + '.jp-ever-text{font-size:14px;color:var(--jp-muted);line-height:1.65;padding-top:4px}'
-      + '@media(max-width:768px){.jp-ever-grid{grid-template-columns:1fr}.jp-ever-card{padding:22px 20px}.jp-ever-pct{font-size:36px;min-width:78px}}'
+      + '@media(max-width:768px){.jp-ever-card{flex:0 0 100%;padding:24px 20px}.jp-ever-pct{font-size:36px;min-width:78px}.jp-sl-prev{left:6px}.jp-sl-next{right:6px}}'
       + '.jp-evergreen{margin-top:40px;padding-top:32px;border-top:1px solid var(--jp-line)}'
       + '.jp-evergreen-title{font-family:Georgia,serif;font-size:20px;font-weight:300;color:var(--jp-ink);margin-bottom:18px}'
       + '.jp-evergreen-row{display:flex;gap:16px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--jp-line);font-size:14px;color:var(--jp-muted)}'
@@ -167,14 +173,40 @@
 
   function renderEvergreen(container, data) {
     var wrap = el('div', 'jp-wrap');
-    var grid = el('div', 'jp-ever-grid');
+    var slider = el('div', 'jp-slider');
+    var track = el('div', 'jp-sl-track');
     (data.evergreen || []).forEach(function (row) {
       var c = el('div', 'jp-ever-card');
       c.innerHTML = '<span class="jp-ever-pct">' + row.percent + '</span><span class="jp-ever-text">' + row.text + '</span>';
-      grid.appendChild(c);
+      track.appendChild(c);
     });
-    wrap.appendChild(grid);
+    var prev = el('button', 'jp-sl-btn jp-sl-prev', '‹');
+    var next = el('button', 'jp-sl-btn jp-sl-next', '›');
+    prev.type = next.type = 'button';
+    prev.setAttribute('aria-label', 'Назад');
+    next.setAttribute('aria-label', 'Вперёд');
+    slider.appendChild(prev);
+    slider.appendChild(track);
+    slider.appendChild(next);
+    wrap.appendChild(slider);
     container.appendChild(wrap);
+
+    function step() {
+      var c = track.firstElementChild;
+      return c ? c.offsetWidth + 1 : track.clientWidth;
+    }
+    function update() {
+      var max = track.scrollWidth - track.clientWidth;
+      var scrollable = max > 2;
+      prev.style.display = next.style.display = scrollable ? '' : 'none';
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+    }
+    prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
+    track.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+    update();
   }
 
   function init() {
