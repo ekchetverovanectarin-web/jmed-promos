@@ -42,6 +42,11 @@
       + '.jp-full-desc{font-size:14px;color:var(--jp-muted);line-height:1.7;margin:14px 0}'
       + '.jp-full-terms{margin:0 0 20px;padding-left:18px;font-size:13px;color:var(--jp-muted);line-height:1.8}'
       + '.jp-full-cta{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--jp-ink)!important;text-decoration:none!important;border-bottom:1px solid var(--jp-gold);padding-bottom:4px}'
+      + '.jp-ever-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--jp-line);border:1px solid var(--jp-line)}'
+      + '.jp-ever-card{background:#fff;padding:28px;display:flex;gap:22px;align-items:flex-start}'
+      + '.jp-ever-pct{font-family:Georgia,serif;font-size:44px;font-weight:300;line-height:1;color:var(--jp-gold);flex:0 0 auto;min-width:92px}'
+      + '.jp-ever-text{font-size:14px;color:var(--jp-muted);line-height:1.65;padding-top:4px}'
+      + '@media(max-width:768px){.jp-ever-grid{grid-template-columns:1fr}.jp-ever-card{padding:22px 20px}.jp-ever-pct{font-size:36px;min-width:78px}}'
       + '.jp-evergreen{margin-top:40px;padding-top:32px;border-top:1px solid var(--jp-line)}'
       + '.jp-evergreen-title{font-family:Georgia,serif;font-size:20px;font-weight:300;color:var(--jp-ink);margin-bottom:18px}'
       + '.jp-evergreen-row{display:flex;gap:16px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--jp-line);font-size:14px;color:var(--jp-muted)}'
@@ -160,6 +165,18 @@
     });
   }
 
+  function renderEvergreen(container, data) {
+    var wrap = el('div', 'jp-wrap');
+    var grid = el('div', 'jp-ever-grid');
+    (data.evergreen || []).forEach(function (row) {
+      var c = el('div', 'jp-ever-card');
+      c.innerHTML = '<span class="jp-ever-pct">' + row.percent + '</span><span class="jp-ever-text">' + row.text + '</span>';
+      grid.appendChild(c);
+    });
+    wrap.appendChild(grid);
+    container.appendChild(wrap);
+  }
+
   function init() {
     var container = document.getElementById(CONTAINER_ID);
     if (!container) {
@@ -183,6 +200,8 @@
         container.innerHTML = '';
         if (pageCfg.variant === 'full') {
           renderFull(container, data, pageCfg);
+        } else if (pageCfg.variant === 'evergreen') {
+          renderEvergreen(container, data);
         } else {
           renderMini(container, data, pageCfg);
         }
